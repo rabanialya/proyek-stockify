@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('pages.dashboard.index');
     })->name('dashboard');
+
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('categories', CategoryController::class)
+            ->except('show');
+    });
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
