@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,15 +13,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::name('index-practice')->get('/', function () {
-    return view('pages.practice.index');
+Route::redirect('/', '/dashboard');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 });
 
-Route::name('practice.')->group(function () {
-    Route::name('first')->get('practice/1', function () {
-        return view('pages.practice.1');
-    });
-    Route::name('second')->get('practice/2', function () {
-        return view('pages.practice.2');
-    });
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard.index');
+    })->name('dashboard');
+
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
