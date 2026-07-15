@@ -13,6 +13,11 @@
             routeName="categories.index"
             title="Kategori"
         />
+
+        <x-sidebar-menu-dashboard
+            routeName="suppliers.index"
+            title="Supplier"
+        />
     @else
         <li class="px-2 pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">
             Operasional Gudang

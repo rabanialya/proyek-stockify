@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class)
+            ->except('show');
+        
+        Route::resource('suppliers', SupplierController::class)
             ->except('show');
     });
 
