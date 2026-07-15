@@ -1,8 +1,12 @@
 <x-sidebar-dashboard>
-    <x-sidebar-menu-dashboard routeName="index-practice" title="Index"/>
-    <x-sidebar-menu-dropdown-dashboard routeName="practice.*" title="Judul Dropdown">
-        <x-sidebar-menu-dropdown-item-dashboard routeName="practice.first" title="Judul Item1"/>
-        <x-sidebar-menu-dropdown-item-dashboard routeName="practice.second" title="Judul Item2"/>
-    </x-sidebar-menu-dropdown-dashboard>
+    <x-sidebar-menu-dashboard routeName="dashboard" title="Dashboard"/>
+
+    @if(auth()->user()->hasRole(\App\Models\Role::ADMIN))
+        <li class="px-2 pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">Administrasi</li>
+        <li class="px-2 py-2 text-sm text-gray-500 dark:text-gray-400">Menu pengguna, kategori, dan supplier akan ditambahkan berikutnya.</li>
+    @else
+        <li class="px-2 pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">Operasional Gudang</li>
+        <li class="px-2 py-2 text-sm text-gray-500 dark:text-gray-400">Menu produk dan stok akan ditambahkan berikutnya.</li>
+    @endif
 </x-sidebar-dashboard>
 -
