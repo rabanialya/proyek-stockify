@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockInController;
+use App\Http\Controllers\StockOutController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +28,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.dashboard.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('categories', CategoryController::class)
@@ -33,6 +37,24 @@ Route::middleware('auth')->group(function () {
         
         Route::resource('suppliers', SupplierController::class)
             ->except('show');
+        
+        Route::resource('products', ProductController::class)
+            ->except('show');
+
+        Route::resource('stock-ins', StockInController::class)
+            ->except('show');
+        
+        Route::resource('stock-outs', StockOutController::class)
+            ->except('show');
+        
+        Route::get('/reports/stock-in', [ReportController::class, 'stockIn'])
+            ->name('reports.stock-in');
+
+        Route::get('/reports/stock-out', [ReportController::class, 'stockOut'])
+            ->name('reports.stock-out');
+
+        Route::get('/reports/inventory', [ReportController::class, 'inventory'])
+            ->name('reports.inventory');
     });
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
