@@ -26,6 +26,15 @@
         />
 
         <li class="px-2 pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            Pengguna
+        </li>
+
+        <x-sidebar-menu-dashboard
+            routeName="users.index"
+            title="Manajemen User"
+        />
+
+        <li class="px-2 pt-4 text-xs font-semibold uppercase tracking-wide text-gray-400">
             Transaksi
         </li>
 

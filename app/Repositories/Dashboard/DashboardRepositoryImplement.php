@@ -27,13 +27,15 @@ class DashboardRepositoryImplement extends Eloquent implements DashboardReposito
 
             'totalSuppliers' => Supplier::count(),
 
-            'stockIn' => StockIn::sum('qty'),
+            'stockInToday' => StockIn::whereDate('date', today())
+                ->sum('qty'),
 
-            'stockOut' => StockOut::sum('qty'),
+            'stockOutToday' => StockOut::whereDate('date', today())
+                ->sum('qty'),
 
             'totalStock' => Product::sum('stock'),
 
-            'lowStock' => Product::whereColumn(
+            'lowStocks' => Product::whereColumn(
                 'stock',
                 '<=',
                 'minimum_stock'
