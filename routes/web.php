@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\StockInController;
 use App\Http\Controllers\StockOutController;
 use App\Http\Controllers\ReportController;
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('products', ProductController::class)
             ->except('show');
 
+        Route::resource('users', UserController::class)
+            ->except('show');
+
         Route::resource('stock-ins', StockInController::class)
             ->except('show');
         
@@ -49,12 +53,37 @@ Route::middleware('auth')->group(function () {
         
         Route::get('/reports/stock-in', [ReportController::class, 'stockIn'])
             ->name('reports.stock-in');
+        Route::get(
+            '/reports/stock-in/export-excel',
+            [ReportController::class, 'exportStockInExcel']
+        )->name('reports.stock-in.excel');
+        Route::get(
+            '/reports/stock-in/export-pdf',
+            [ReportController::class, 'exportStockInPdf']
+        )->name('reports.stock-in.pdf');
 
         Route::get('/reports/stock-out', [ReportController::class, 'stockOut'])
             ->name('reports.stock-out');
+        Route::get(
+            '/reports/stock-out/export-excel',
+            [ReportController::class, 'exportStockOutExcel']
+        )->name('reports.stock-out.excel');
+
+        Route::get(
+            '/reports/stock-out/export-pdf',
+            [ReportController::class, 'exportStockOutPdf']
+        )->name('reports.stock-out.pdf');
 
         Route::get('/reports/inventory', [ReportController::class, 'inventory'])
             ->name('reports.inventory');
+        Route::get(
+            '/reports/inventory/export-excel',
+            [ReportController::class, 'exportInventoryExcel']
+        )->name('reports.inventory.excel');
+        Route::get(
+            '/reports/inventory/export-pdf',
+            [ReportController::class, 'exportInventoryPdf']
+        )->name('reports.inventory.pdf');
     });
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

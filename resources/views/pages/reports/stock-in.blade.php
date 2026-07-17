@@ -17,7 +17,9 @@
         </div>
     </div>
 
-    <form method="GET" class="mb-6 grid gap-4 md:grid-cols-3">
+    <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+
+    <form method="GET" class="flex flex-wrap gap-3">
 
         <input
             type="date"
@@ -34,12 +36,38 @@
         >
 
         <button
-            class="rounded-lg bg-primary-700 px-4 py-2 text-white hover:bg-primary-800"
+            class="rounded-lg bg-primary-700 px-5 py-2.5 font-medium text-white hover:bg-primary-800"
         >
             Filter
         </button>
 
     </form>
+
+    <div class="flex gap-3">
+
+        <a
+            href="{{ route('reports.stock-in.excel', [
+                'start_date' => request('start_date'),
+                'end_date' => request('end_date')
+            ]) }}"
+            class="rounded-lg bg-green-700 px-5 py-2.5 font-medium text-white hover:bg-green-800"
+        >
+            Export Excel
+        </a>
+
+        <a
+            href="{{ route('reports.stock-in.pdf',[
+                'start_date'=>request('start_date'),
+                'end_date'=>request('end_date')
+            ]) }}"
+            class="rounded-lg bg-red-700 px-5 py-2.5 font-medium text-white hover:bg-red-800"
+        >
+            Export PDF
+        </a>
+
+    </div>
+
+</div>
 
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
@@ -111,7 +139,6 @@
                 </tbody>
 
             </table>
-
         </div>
 
     </div>

@@ -17,10 +17,32 @@
         </div>
     </div>
 
-    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+    <div class="flex flex-wrap gap-3">
+
+            <a
+                href="{{ route('reports.inventory.excel') }}"
+                class="rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-700"
+            >
+                Export Excel
+            </a>
+
+            <a
+                href="{{ route('reports.inventory.pdf') }}"
+                class="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-red-700"
+            >
+                Export PDF
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="rounded-xl bg-white shadow dark:bg-gray-800">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-700 dark:bg-gray-700 dark:text-gray-200">
                     <tr>
                         <th class="px-6 py-3">
                             No

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Laporan Stok Masuk')
+@section('title', 'Laporan Stok Keluar')
 
 @section('content')
 <div class="px-4 pt-6">
@@ -17,29 +17,72 @@
         </div>
     </div>
 
-    <form method="GET" class="mb-6 grid gap-4 md:grid-cols-3">
+    <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 
-        <input
-            type="date"
-            name="start_date"
-            value="{{ request('start_date') }}"
-            class="rounded-lg border border-gray-300 p-2.5 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-        >
+        {{-- Filter --}}
+        <form method="GET" class="flex flex-wrap items-end gap-3">
 
-        <input
-            type="date"
-            name="end_date"
-            value="{{ request('end_date') }}"
-            class="rounded-lg border border-gray-300 p-2.5 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-        >
+            <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Dari Tanggal
+                </label>
 
-        <button
-            class="rounded-lg bg-primary-700 px-4 py-2 text-white hover:bg-primary-800"
-        >
-            Filter
-        </button>
+                <input
+                    type="date"
+                    name="start_date"
+                    value="{{ request('start_date') }}"
+                    class="rounded-lg border border-gray-300 p-2.5 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                >
+            </div>
 
-    </form>
+            <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Sampai Tanggal
+                </label>
+
+                <input
+                    type="date"
+                    name="end_date"
+                    value="{{ request('end_date') }}"
+                    class="rounded-lg border border-gray-300 p-2.5 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="rounded-lg bg-primary-700 px-5 py-2.5 font-medium text-white hover:bg-primary-800"
+            >
+                Filter
+            </button>
+
+        </form>
+
+        {{-- Export --}}
+        <div class="flex flex-wrap gap-3">
+
+            <a
+                href="{{ route('reports.stock-out.excel',[
+                    'start_date'=>request('start_date'),
+                    'end_date'=>request('end_date')
+                ]) }}"
+                class="rounded-lg bg-green-600 px-5 py-2.5 font-medium text-white hover:bg-green-700"
+            >
+                Export Excel
+            </a>
+
+            <a
+                href="{{ route('reports.stock-out.pdf',[
+                    'start_date'=>request('start_date'),
+                    'end_date'=>request('end_date')
+                ]) }}"
+                class="rounded-lg bg-red-600 px-5 py-2.5 font-medium text-white hover:bg-red-700"
+            >
+                Export PDF
+            </a>
+
+        </div>
+
+    </div>
 
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
 
