@@ -22,6 +22,12 @@ use App\Repositories\Product\ProductRepositoryImplement;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceImplement;
 
+// User
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryImplement;
+use App\Services\User\UserService;
+use App\Services\User\UserServiceImplement;
+
 // StockIn
 use App\Repositories\StockIn\StockInRepository;
 use App\Repositories\StockIn\StockInRepositoryImplement;
@@ -84,6 +90,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductService::class,
             ProductServiceImplement::class
+        );
+
+        // User
+        $this->app->bind(
+            UserRepository::class,
+            UserRepositoryImplement::class
+        );
+
+        $this->app->bind(
+            UserService::class,
+            UserServiceImplement::class
         );
 
         // StockIn
