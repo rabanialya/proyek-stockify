@@ -21,6 +21,13 @@ class ProductController extends Controller
         return view('pages.products.index', compact('products'));
     }
 
+    public function show(int $product)
+    {
+        $product = $this->productService->findOrFail($product);
+
+        return view('pages.products.show', compact('product'));
+    }
+
     public function create()
     {
         $categories = Category::orderBy('name')->get();

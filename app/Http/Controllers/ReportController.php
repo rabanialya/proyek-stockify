@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InventoryExport;
+use App\Exports\StockInExport;
+use App\Exports\StockOpnameExport;
+use App\Exports\StockOutExport;
 use App\Services\Report\ReportService;
+use App\Services\StockOpname\StockOpnameService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\StockInExport;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Exports\StockOutExport;
-use App\Exports\InventoryExport;
 
 class ReportController extends Controller
 {
     public function __construct(
-        protected ReportService $reportService
+        protected ReportService $reportService,
+        protected StockOpnameService $stockOpnameService
     ) {}
 
     public function stockIn(Request $request)
@@ -114,5 +117,39 @@ class ReportController extends Controller
         $products = $this->reportService->inventoryReport();
 
         return view('pages.reports.inventory', compact('products'));
+    }
+
+    public function stockOpname(Request $request)
+    {
+        $stockOpnames = $this->stockOpnameService->reportFilter(
+            $request->start_date,
+            $request->end_date
+        );
+
+        return view('pages.reports.stock-opname', compact('stockOpnames'));
+    }
+
+    public function exportStockOpnameExcel(Request $request)
+    {
+        return Excel::download(
+            new StockOpnameExport($request->start_date, $request->end_date),
+            'laporan-stock-opname.xlsx'
+        );
+    }
+
+    public function exportStockOpnamePdf(Request $request)
+    {
+        $stockOpnames = $this->stockOpnameService->reportFilter(
+            $request->start_date,
+            $request->end_date
+        );
+
+        $pdf = Pdf::loadView('pages.reports.pdf.stock-opname', [
+            'stockOpnames' => $stockOpnames,
+            'startDate'    => $request->start_date,
+            'endDate'      => $request->end_date,
+        ]);
+
+        return $pdf->download('laporan-stock-opname.pdf');
     }
 }

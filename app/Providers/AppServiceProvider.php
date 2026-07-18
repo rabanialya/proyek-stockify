@@ -52,6 +52,12 @@ use App\Repositories\Dashboard\DashboardRepositoryImplement;
 use App\Services\Dashboard\DashboardService;
 use App\Services\Dashboard\DashboardServiceImplement;
 
+// StockOpname
+use App\Repositories\StockOpname\StockOpnameRepository;
+use App\Repositories\StockOpname\StockOpnameRepositoryImplement;
+use App\Services\StockOpname\StockOpnameService;
+use App\Services\StockOpname\StockOpnameServiceImplement;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -145,6 +151,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DashboardService::class,
             DashboardServiceImplement::class
+        );
+
+        // StockOpname
+        $this->app->bind(
+            StockOpnameRepository::class,
+            StockOpnameRepositoryImplement::class
+        );
+
+        $this->app->bind(
+            StockOpnameService::class,
+            StockOpnameServiceImplement::class
         );
     }
 

@@ -15,12 +15,14 @@
                 </p>
             </div>
 
+            @if(auth()->user()->hasRole('admin'))
             <a
                 href="{{ route('products.create') }}"
-                class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800"
             >
                 Tambah Produk
             </a>
+            @endif
         </div>
 
         @if (session('success'))
@@ -37,37 +39,14 @@
                 <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
                     <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                         <tr>
-                            <th class="px-6 py-3">
-                                No.
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Produk
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Kategori
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Supplier
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Harga
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Stok
-                            </th>
-
-                            <th class="px-6 py-3">
-                                Status
-                            </th>
-
-                            <th class="px-6 py-3 text-right">
-                                Aksi
-                            </th>
+                            <th class="px-6 py-3">No.</th>
+                            <th class="px-6 py-3">Produk</th>
+                            <th class="px-6 py-3">Kategori</th>
+                            <th class="px-6 py-3">Supplier</th>
+                            <th class="px-6 py-3">Harga</th>
+                            <th class="px-6 py-3">Stok</th>
+                            <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-3 text-right">Aksi</th>
                         </tr>
                     </thead>
 
@@ -83,10 +62,8 @@
                                     <div class="font-medium text-gray-900 dark:text-white">
                                         {{ $product->name }}
                                     </div>
-
                                     <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                        SKU :
-                                        {{ $product->sku }}
+                                        SKU : {{ $product->sku }}
                                     </div>
                                 </td>
 
@@ -100,25 +77,17 @@
 
                                 <td class="px-6 py-4">
                                     <div>
-                                        <span class="font-medium">
-                                            Beli :
-                                        </span>
+                                        <span class="font-medium">Beli :</span>
                                         Rp {{ number_format($product->purchase_price, 0, ',', '.') }}
                                     </div>
-
                                     <div class="mt-1">
-                                        <span class="font-medium">
-                                            Jual :
-                                        </span>
+                                        <span class="font-medium">Jual :</span>
                                         Rp {{ number_format($product->selling_price, 0, ',', '.') }}
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <div class="font-medium">
-                                        {{ $product->stock }}
-                                    </div>
-
+                                    <div class="font-medium">{{ $product->stock }}</div>
                                     <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                         Min. {{ $product->minimum_stock }}
                                     </div>
@@ -138,30 +107,39 @@
 
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-3">
-
-                                        <a
-                                            href="{{ route('products.edit', $product->id) }}"
-                                            class="font-medium text-primary-700 hover:underline dark:text-primary-500"
-                                        >
-                                            Edit
-                                        </a>
-
-                                        <form
-                                            method="POST"
-                                            action="{{ route('products.destroy', $product->id) }}"
-                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button
-                                                type="submit"
-                                                class="font-medium text-red-600 hover:underline dark:text-red-500"
+                                        {{-- Admin: Edit & Hapus --}}
+                                        @if(auth()->user()->hasRole('admin'))
+                                            <a
+                                                href="{{ route('products.edit', $product->id) }}"
+                                                class="font-medium text-primary-700 hover:underline dark:text-primary-500"
                                             >
-                                                Hapus
-                                            </button>
-                                        </form>
+                                                Edit
+                                            </a>
 
+                                            <form
+                                                method="POST"
+                                                action="{{ route('products.destroy', $product->id) }}"
+                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="font-medium text-red-600 hover:underline dark:text-red-500"
+                                                >
+                                                    Hapus
+                                                </button>
+                                            </form>
+
+                                        {{-- Manager: hanya Detail --}}
+                                        @elseif(auth()->user()->hasRole('warehouse-manager'))
+                                            <a
+                                                href="{{ route('products.show', $product->id) }}"
+                                                class="font-medium text-primary-700 hover:underline dark:text-primary-500"
+                                            >
+                                                Detail
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
 
@@ -176,7 +154,6 @@
                                 </td>
                             </tr>
                         @endforelse
-
                     </tbody>
                 </table>
             </div>

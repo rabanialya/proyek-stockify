@@ -15,12 +15,14 @@
                 </p>
             </div>
 
+            @if(auth()->user()->hasRole('admin'))
             <a
                 href="{{ route('suppliers.create') }}"
                 class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
             >
                 Tambah Supplier
             </a>
+            @endif
         </div>
 
         @if (session('success'))
@@ -61,9 +63,11 @@
                                 Status
                             </th>
 
+                            @if(auth()->user()->hasRole('admin'))
                             <th scope="col" class="px-6 py-3 text-right">
                                 Aksi
                             </th>
+                            @endif
                         </tr>
                     </thead>
 
@@ -108,6 +112,7 @@
                                     @endif
                                 </td>
 
+                                @if(auth()->user()->hasRole('admin'))
                                 <td class="px-6 py-4">
                                     <div class="flex items-center justify-end gap-3">
                                         <a
@@ -134,11 +139,12 @@
                                         </form>
                                     </div>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
                                 <td
-                                    colspan="7"
+                                    colspan="{{ auth()->user()->hasRole('admin') ? 7 : 6 }}"
                                     class="px-6 py-8 text-center text-gray-500 dark:text-gray-400"
                                 >
                                     Belum ada data supplier.

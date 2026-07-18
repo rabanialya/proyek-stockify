@@ -14,6 +14,20 @@ class DashboardController extends Controller
     {
         $data = $this->dashboardService->statistics();
 
-        return view('pages.dashboard.index', $data);
+        $user = auth()->user();
+
+        if ($user->hasRole('admin')) {
+            return view('pages.dashboard.admin', $data);
+        }
+
+        if ($user->hasRole('warehouse-manager')) {
+            return view('pages.dashboard.manager', $data);
+        }
+
+        if ($user->hasRole('warehouse-staff')) {
+            return view('pages.dashboard.staff', $data);
+        }
+
+        abort(403);
     }
 }
