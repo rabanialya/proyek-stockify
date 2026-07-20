@@ -12,16 +12,18 @@
                 Stock Opname
             </h1>
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Kelola hasil penghitungan fisik stok barang di gudang.
+                Hasil penghitungan fisik stok barang di gudang.
             </p>
         </div>
 
-        <a
-            href="{{ route('stock-opnames.create') }}"
-            class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800"
-        >
-            Tambah Stock Opname
-        </a>
+        @if(auth()->user()->hasRole('admin', 'warehouse-manager'))
+            <a
+                href="{{ route('stock-opnames.create') }}"
+                class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-800"
+            >
+                Tambah Stock Opname
+            </a>
+        @endif
 
     </div>
 
@@ -45,7 +47,9 @@
                         <th class="px-6 py-3">Selisih</th>
                         <th class="px-6 py-3">Petugas</th>
                         <th class="px-6 py-3">Keterangan</th>
-                        <th class="px-6 py-3 text-right">Aksi</th>
+                        @if(auth()->user()->hasRole('admin', 'warehouse-manager'))
+                            <th class="px-6 py-3 text-right">Aksi</th>
+                        @endif
                     </tr>
                 </thead>
 
@@ -63,13 +67,9 @@
                             {{ $opname->product->name ?? '-' }}
                         </td>
 
-                        <td class="px-6 py-4">
-                            {{ $opname->system_stock }}
-                        </td>
+                        <td class="px-6 py-4">{{ $opname->system_stock }}</td>
 
-                        <td class="px-6 py-4">
-                            {{ $opname->physical_stock }}
-                        </td>
+                        <td class="px-6 py-4">{{ $opname->physical_stock }}</td>
 
                         <td class="px-6 py-4">
                             @if($opname->difference > 0)
@@ -87,41 +87,41 @@
                             @endif
                         </td>
 
-                        <td class="px-6 py-4">
-                            {{ $opname->user->name ?? '-' }}
-                        </td>
+                        <td class="px-6 py-4">{{ $opname->user->name ?? '-' }}</td>
 
-                        <td class="px-6 py-4">
-                            {{ $opname->note ?? '-' }}
-                        </td>
+                        <td class="px-6 py-4">{{ $opname->note ?? '-' }}</td>
 
-                        <td class="px-6 py-4">
-                            <div class="flex justify-end gap-3">
-                                <a
-                                    href="{{ route('stock-opnames.edit', $opname->id) }}"
-                                    class="font-medium text-primary-700 hover:underline dark:text-primary-500"
-                                >
-                                    Edit
-                                </a>
-
-                                <form
-                                    method="POST"
-                                    action="{{ route('stock-opnames.destroy', $opname->id) }}"
-                                    onsubmit="return confirm('Hapus data stock opname ini?')"
-                                >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="font-medium text-red-600 hover:underline dark:text-red-500">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        @if(auth()->user()->hasRole('admin', 'warehouse-manager'))
+                            <td class="px-6 py-4">
+                                <div class="flex justify-end gap-3">
+                                    <a
+                                        href="{{ route('stock-opnames.edit', $opname->id) }}"
+                                        class="font-medium text-primary-700 hover:underline dark:text-primary-500"
+                                    >
+                                        Edit
+                                    </a>
+                                    <form
+                                        method="POST"
+                                        action="{{ route('stock-opnames.destroy', $opname->id) }}"
+                                        onsubmit="return confirm('Hapus data stock opname ini?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="font-medium text-red-600 hover:underline dark:text-red-500">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        @endif
 
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                        <td
+                            colspan="{{ auth()->user()->hasRole('admin', 'warehouse-manager') ? 9 : 8 }}"
+                            class="px-6 py-8 text-center text-gray-500 dark:text-gray-400"
+                        >
                             Belum ada data stock opname.
                         </td>
                     </tr>

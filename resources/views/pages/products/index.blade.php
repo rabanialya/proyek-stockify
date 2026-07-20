@@ -131,8 +131,8 @@
                                                 </button>
                                             </form>
 
-                                        {{-- Manager: hanya Detail --}}
-                                        @elseif(auth()->user()->hasRole('warehouse-manager'))
+                                        {{-- Manager & Staff: hanya Detail --}}
+                                        @elseif(auth()->user()->hasRole('warehouse-manager', 'warehouse-staff'))
                                             <a
                                                 href="{{ route('products.show', $product->id) }}"
                                                 class="font-medium text-primary-700 hover:underline dark:text-primary-500"
