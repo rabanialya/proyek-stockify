@@ -16,6 +16,7 @@
         </div>
     </div>
 
+    {{-- ===== FILTER TANGGAL ===== --}}
     <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 
         <form method="GET" class="flex flex-wrap gap-3">
@@ -56,6 +57,67 @@
 
     </div>
 
+    {{-- ===== SUMMARY CARDS ===== --}}
+    <div class="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+        {{-- Total Transaksi --}}
+        <div class="flex items-center rounded-lg border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <div class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900">
+                <svg class="h-6 w-6 text-indigo-600 dark:text-indigo-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Total Transaksi</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ number_format($summary['totalTransactions']) }}</h3>
+            </div>
+        </div>
+
+        {{-- Selisih Positif --}}
+        <div class="flex items-center rounded-lg border border-green-200 bg-green-50 p-5 shadow-sm dark:border-green-700 dark:bg-green-900/20">
+            <div class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+                <svg class="h-6 w-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs text-green-600 dark:text-green-400">Total Selisih Positif</p>
+                <h3 class="text-xl font-bold text-green-700 dark:text-green-300">+{{ number_format($summary['totalPositive']) }}</h3>
+                <p class="text-xs text-green-500">unit lebih</p>
+            </div>
+        </div>
+
+        {{-- Selisih Negatif --}}
+        <div class="flex items-center rounded-lg border border-red-200 bg-red-50 p-5 shadow-sm dark:border-red-700 dark:bg-red-900/20">
+            <div class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
+                <svg class="h-6 w-6 text-red-600 dark:text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs text-red-600 dark:text-red-400">Total Selisih Negatif</p>
+                <h3 class="text-xl font-bold text-red-700 dark:text-red-300">{{ number_format($summary['totalNegative']) }}</h3>
+                <p class="text-xs text-red-500">unit kurang</p>
+            </div>
+        </div>
+
+        {{-- Produk dengan Selisih --}}
+        <div class="flex items-center rounded-lg border border-yellow-200 bg-yellow-50 p-5 shadow-sm dark:border-yellow-700 dark:bg-yellow-900/20">
+            <div class="mr-4 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900">
+                <svg class="h-6 w-6 text-yellow-600 dark:text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-xs text-yellow-600 dark:text-yellow-400">Produk Ada Selisih</p>
+                <h3 class="text-xl font-bold text-yellow-700 dark:text-yellow-300">{{ number_format($summary['productsWithDiff']) }}</h3>
+                <p class="text-xs text-yellow-500">produk</p>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- ===== TABEL HISTORI ===== --}}
     <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
@@ -114,8 +176,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                            Belum ada data stock opname.
+                        <td colspan="8">
+                            <div class="flex flex-col items-center justify-center px-6 py-14 text-center">
+                                <svg class="mb-4 h-14 w-14 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                </svg>
+                                <p class="text-base font-semibold text-gray-500 dark:text-gray-400">Belum ada data stock opname.</p>
+                                <p class="mt-1 text-sm text-gray-400 dark:text-gray-500">Silakan tambahkan transaksi stock opname terlebih dahulu.</p>
+                            </div>
                         </td>
                     </tr>
                 @endforelse

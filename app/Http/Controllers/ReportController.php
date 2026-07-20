@@ -48,9 +48,11 @@ class ReportController extends Controller
         );
 
         $pdf = Pdf::loadView('pages.reports.pdf.stock-in', [
-            'stockIns' => $stockIns,
-            'startDate' => $request->start_date,
-            'endDate' => $request->end_date,
+            'stockIns'    => $stockIns,
+            'startDate'   => $request->start_date,
+            'endDate'     => $request->end_date,
+            'printedBy'   => auth()->user()->name,
+            'printedAt'   => now(),
         ]);
 
         return $pdf->download('laporan-stok-masuk.pdf');
@@ -83,9 +85,11 @@ class ReportController extends Controller
         );
 
         $pdf = Pdf::loadView('pages.reports.pdf.stock-out', [
-            'stockOuts' => $stockOuts,
-            'startDate' => $request->start_date,
-            'endDate' => $request->end_date,
+            'stockOuts'   => $stockOuts,
+            'startDate'   => $request->start_date,
+            'endDate'     => $request->end_date,
+            'printedBy'   => auth()->user()->name,
+            'printedAt'   => now(),
         ]);
 
         return $pdf->download('laporan-stok-keluar.pdf');
@@ -96,7 +100,9 @@ class ReportController extends Controller
         $products = $this->reportService->inventoryReport();
 
         $pdf = Pdf::loadView('pages.reports.pdf.inventory', [
-            'products' => $products,
+            'products'  => $products,
+            'printedBy' => auth()->user()->name,
+            'printedAt' => now(),
         ]);
 
         return $pdf->download('laporan-persediaan.pdf');
@@ -115,8 +121,9 @@ class ReportController extends Controller
     public function inventory()
     {
         $products = $this->reportService->inventoryReport();
+        $summary  = $this->reportService->inventorySummary();
 
-        return view('pages.reports.inventory', compact('products'));
+        return view('pages.reports.inventory', compact('products', 'summary'));
     }
 
     public function stockOpname(Request $request)
@@ -126,7 +133,12 @@ class ReportController extends Controller
             $request->end_date
         );
 
-        return view('pages.reports.stock-opname', compact('stockOpnames'));
+        $summary = $this->reportService->stockOpnameSummary(
+            $request->start_date,
+            $request->end_date
+        );
+
+        return view('pages.reports.stock-opname', compact('stockOpnames', 'summary'));
     }
 
     public function exportStockOpnameExcel(Request $request)
@@ -148,6 +160,8 @@ class ReportController extends Controller
             'stockOpnames' => $stockOpnames,
             'startDate'    => $request->start_date,
             'endDate'      => $request->end_date,
+            'printedBy'    => auth()->user()->name,
+            'printedAt'    => now(),
         ]);
 
         return $pdf->download('laporan-stock-opname.pdf');

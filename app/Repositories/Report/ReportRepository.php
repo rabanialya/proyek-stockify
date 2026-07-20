@@ -11,4 +11,8 @@ interface ReportRepository extends Repository{
     public function stockOutReport($startDate = null, $endDate = null);
 
     public function inventoryReport();
+
+    public function inventorySummary(): array;
+
+    public function stockOpnameSummary(?string $startDate, ?string $endDate): array;
 }

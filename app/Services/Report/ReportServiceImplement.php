@@ -30,4 +30,14 @@ class ReportServiceImplement extends Service implements ReportService
     {
         return $this->mainRepository->inventoryReport();
     }
+
+    public function inventorySummary(): array
+    {
+        return $this->mainRepository->inventorySummary();
+    }
+
+    public function stockOpnameSummary(?string $startDate, ?string $endDate): array
+    {
+        return $this->mainRepository->stockOpnameSummary($startDate, $endDate);
+    }
 }
