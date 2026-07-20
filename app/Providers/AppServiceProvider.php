@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 // Category
 use App\Repositories\Category\CategoryRepository;
@@ -170,6 +171,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Pasok data navbar (notifikasi, stok menipis) ke semua view
+        // menggunakan View Composer agar query tidak diletakkan di Blade.
+        View::composer(
+            'components.navbar-dashboard',
+            \App\Http\View\Composers\NavbarComposer::class
+        );
     }
 }
