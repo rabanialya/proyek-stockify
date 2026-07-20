@@ -20,4 +20,14 @@ class DashboardServiceImplement extends Service implements DashboardService
     {
         return $this->mainRepository->statistics();
     }
+
+    public function adminData()
+    {
+        return $this->mainRepository->adminData();
+    }
+
+    public function staffData()
+    {
+        return $this->mainRepository->staffData();
+    }
 }

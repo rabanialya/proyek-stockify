@@ -1,5 +1,8 @@
 import ApexCharts from 'apexcharts';
 
+// Expose ke window agar bisa diakses dari inline script blade
+window.ApexCharts = ApexCharts;
+
 const getMainChartOptions = () => {
 	let mainChartColors = {}
 

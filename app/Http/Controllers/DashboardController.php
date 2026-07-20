@@ -12,19 +12,20 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $data = $this->dashboardService->statistics();
-
         $user = auth()->user();
 
         if ($user->hasRole('admin')) {
+            $data = $this->dashboardService->adminData();
             return view('pages.dashboard.admin', $data);
         }
 
         if ($user->hasRole('warehouse-manager')) {
+            $data = $this->dashboardService->statistics();
             return view('pages.dashboard.manager', $data);
         }
 
         if ($user->hasRole('warehouse-staff')) {
+            $data = $this->dashboardService->staffData();
             return view('pages.dashboard.staff', $data);
         }
 
