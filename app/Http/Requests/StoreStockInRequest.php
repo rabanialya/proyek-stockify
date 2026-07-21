@@ -25,6 +25,12 @@ class StoreStockInRequest extends FormRequest
                 'min:1',
             ],
 
+            'purchase_price' => [
+                'required',
+                'numeric',
+                'min:0',
+            ],
+
             'date' => [
                 'required',
                 'date',
@@ -46,6 +52,10 @@ class StoreStockInRequest extends FormRequest
             'qty.required' => 'Jumlah stok wajib diisi.',
             'qty.integer' => 'Jumlah harus berupa angka.',
             'qty.min' => 'Jumlah minimal 1.',
+
+            'purchase_price.required' => 'Harga beli per unit wajib diisi.',
+            'purchase_price.numeric'  => 'Harga beli harus berupa angka.',
+            'purchase_price.min'      => 'Harga beli tidak boleh negatif.',
 
             'date.required' => 'Tanggal wajib diisi.',
             'date.date' => 'Format tanggal tidak valid.',
