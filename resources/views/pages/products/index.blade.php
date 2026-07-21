@@ -77,7 +77,7 @@
 
                                 <td class="px-6 py-4">
                                     <div>
-                                        <span class="font-medium">Beli :</span>
+                                        <span class="font-medium">Beli Terakhir :</span>
                                         Rp {{ number_format($product->purchase_price, 0, ',', '.') }}
                                     </div>
                                     <div class="mt-1">

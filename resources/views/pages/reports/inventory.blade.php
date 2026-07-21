@@ -53,7 +53,7 @@
                 </svg>
             </div>
             <div>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Nilai (Harga Beli)</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Nilai (Harga Beli Terakhir)</p>
                 <h3 class="text-base font-bold text-gray-900 dark:text-white">Rp {{ number_format($summary['totalValuePurchase'], 0, ',', '.') }}</h3>
             </div>
         </div>
@@ -116,7 +116,7 @@
                         <th class="px-6 py-3">SKU</th>
                         <th class="px-6 py-3">Kategori</th>
                         <th class="px-6 py-3">Supplier</th>
-                        <th class="px-6 py-3">Harga Beli</th>
+                        <th class="px-6 py-3">Harga Beli Terakhir</th>
                         <th class="px-6 py-3">Harga Jual</th>
                         <th class="px-6 py-3">Stok</th>
                         <th class="px-6 py-3">Minimum</th>

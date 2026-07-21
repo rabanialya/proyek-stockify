@@ -68,7 +68,7 @@
 
             <dl class="space-y-3">
                 <div class="flex justify-between border-b pb-2 dark:border-gray-700">
-                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Harga Beli</dt>
+                    <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Harga Beli Terakhir</dt>
                     <dd class="text-sm font-medium text-gray-900 dark:text-white">
                         Rp {{ number_format($product->purchase_price, 0, ',', '.') }}
                     </dd>

@@ -37,43 +37,72 @@
 
     </div>
 
-    <div>
+    <div class="grid gap-6 md:grid-cols-2">
 
-        <label class="mb-2 block text-sm font-medium">
+        <div>
 
-            Jumlah
+            <label class="mb-2 block text-sm font-medium">
+                Jumlah
+            </label>
 
-        </label>
+            <input
+                type="number"
+                name="qty"
+                value="{{ old('qty', $stockIn->qty ?? '') }}"
+                required
+                min="1"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm"
+            >
 
-        <input
-            type="number"
-            name="qty"
-            value="{{ old('qty',$stockIn->qty ?? '') }}"
-            required
-            min="1"
-            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm"
-        >
+            @error('qty')
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
+            @enderror
 
-        @error('qty')
-            <p class="mt-2 text-sm text-red-600">
-                {{ $message }}
+        </div>
+
+        <div>
+
+            <label class="mb-2 block text-sm font-medium">
+                Harga Beli per Unit (Rp)
+            </label>
+
+            <input
+                type="number"
+                name="purchase_price"
+                value="{{ old('purchase_price', isset($stockIn) ? $stockIn->product->purchase_price ?? '' : '') }}"
+                required
+                min="0"
+                step="0.01"
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm"
+                placeholder="Contoh: 15000"
+            >
+
+            <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                Masukkan harga beli per unit. Jika pembelian dilakukan per lusin, box, atau pack, hitung terlebih dahulu menjadi harga per unit sebelum diinput.
             </p>
-        @enderror
+
+            @error('purchase_price')
+                <p class="mt-2 text-sm text-red-600">
+                    {{ $message }}
+                </p>
+            @enderror
+
+        </div>
 
     </div>
 
     <div>
 
         <label class="mb-2 block text-sm font-medium">
-
             Tanggal
-
         </label>
 
         <input
             type="date"
             name="date"
-            value="{{ old('date',$stockIn->date ?? now()->toDateString()) }}"
+            value="{{ old('date', $stockIn->date ?? now()->toDateString()) }}"
             required
             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm"
         >
@@ -83,16 +112,14 @@
     <div>
 
         <label class="mb-2 block text-sm font-medium">
-
             Keterangan
-
         </label>
 
         <textarea
             name="note"
             rows="4"
             class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm"
-        >{{ old('note',$stockIn->note ?? '') }}</textarea>
+        >{{ old('note', $stockIn->note ?? '') }}</textarea>
 
     </div>
 
